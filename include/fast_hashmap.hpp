@@ -32,9 +32,9 @@ private:
 
 public:
 
-    fast_hashmap(std::size_t sz) : num_groups_{sz / GSZ + sz % GSZ > 0},
-                                   load_factor_{2},
-                                   tot_elems_{num_groups_ * GSZ * load_factor_},
+    fast_hashmap(std::size_t sz) : load_factor_{2},
+                                   num_groups_{(sz / GSZ + sz % GSZ > 0) * load_factor_},
+                                   tot_elems_{num_groups_ * GSZ},
                                    ctrls_(tot_elems_),
                                    slots_(tot_elems_) {}
 
@@ -61,8 +61,8 @@ public:
 private:
 
 private:
-    std::size_t num_groups_;
     std::size_t load_factor_;
+    std::size_t num_groups_;
     std::size_t tot_elems_;
     Controls ctrls_;
     Buckets slots_;
