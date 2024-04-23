@@ -41,6 +41,28 @@ public:
 
     fast_hashmap() : fast_hashmap(1024) {}
 
+    class iterator
+    {
+    private:
+        friend class fast_hashmap;
+    public:
+        iterator(size_t position, Controls &c, Buckets &s) : pos{position}, it_ctrl{c}, it_slots{s} {}
+    private:
+        size_t pos;
+        Controls &it_ctrl;
+        Buckets &it_slots;
+    };
+
+    inline iterator iterator_at(size_t pos)
+    {
+        return iterator(pos, ctrls_, slots_);
+    }
+
+    inline iterator end()
+    {
+        return iterator_at(tot_elems_ - 1);
+    }
+
     // Need to distribute hash evenly between first 57 bits and last 7 bits.
     // 57 is the group location, 7 goes to the control bit.
     inline size_t calc_hash(const Key& key)
@@ -48,8 +70,9 @@ public:
         return Hash{}(key);
     }
 
-    std::optional<Elem&> find(const Key &key)
+    iterator find(const Key &key)
     {
+        std::cout << "find!\n";
         size_t hash = calc_hash(key);
         size_t group = H1(hash) % num_groups_;
         while (true)
@@ -59,9 +82,9 @@ public:
             for (size_t i : found)
             {
                 if (key == slots_[pos + i].first)
-                    return slots_[pos + i];
+                    return iterator_at(pos + i);
             }
-            if (found.empty()) return std::nullopt;
+            if (found.empty()) return end();
             group = (group + 1) % num_groups_;
         }
     }
