@@ -31,6 +31,28 @@ private:
     std::size_t H1(size_t hash) { return hash >> 7; }
     ctrl_t H2(size_t hash) { return hash & 0x7F; }
 
+    class Group
+    {
+    public:
+        Group(size_t grp, Controls &c, Buckets &b) : curr_{grp}, ctrls_{c}, slots_{b} {}
+
+        std::vector<size_t> match_hash(ctrl_t hash)
+        {
+            // When matching hash, curr_ * GSZ is the real position in array
+            return {};
+        }
+
+        bool match_empty()
+        {
+            return true;
+        }
+
+    private:
+        size_t curr_;
+        Controls &ctrls_;
+        Buckets &slots_;
+    };
+
 public:
 
     fast_hashmap(size_t sz) : load_factor_{2},
@@ -78,13 +100,14 @@ public:
         while (true)
         {
             size_t pos = group * GSZ;
-            std::vector<size_t> found = match_hash(H2(hash));
+            Group g{pos, ctrls_, slots_};
+            std::vector<size_t> found = g.match_hash(H2(hash));
             for (size_t i : found)
             {
                 if (key == slots_[pos + i].first)
                     return iterator_at(pos + i);
             }
-            if (found.empty()) return end();
+            if (g.match_empty()) return end();
             group = (group + 1) % num_groups_;
         }
     }
@@ -92,6 +115,12 @@ public:
     bool insert(std::pair<Key, Val> elem)
     {
         std::cout << "insert!\n";
+        /*
+        size_t hash = calc_hash(elem.first);
+        size_t pos = (H1(hash) % num_groups_) * GSZ;
+        Group g{pos, ctrls_, slots_};
+        */
+
         return true;
     }
 
@@ -108,11 +137,6 @@ public:
     }
 
 private:
-
-    std::vector<size_t> match_hash(ctrl_t hash)
-    {
-        return {};
-    }
 
 private:
     std::size_t load_factor_;

@@ -6,11 +6,12 @@ TO-DO:
 - Implement find
 - Implement insert
 - Implement erase
-- Implement iterators instead of optional find -> stop sentinel at the end
+- Implement detailed iterators
+- Stop sentinel at the end (make sure it can not be accessed! (extra element?))
 - Create the control variables in the same allocation block
 - Write tests via gmock
 - Benchmark via Google benchmark
 
 DONE:
 - Implement groups
-- 
+- Implement basic iterators for casual use
