@@ -115,11 +115,9 @@ public:
     bool insert(std::pair<Key, Val> elem)
     {
         std::cout << "insert!\n";
-        /*
         size_t hash = calc_hash(elem.first);
         size_t pos = (H1(hash) % num_groups_) * GSZ;
         Group g{pos, ctrls_, slots_};
-        */
 
         return true;
     }
