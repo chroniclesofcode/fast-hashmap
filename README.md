@@ -11,6 +11,8 @@ TO-DO:
 - Create the control variables in the same allocation block
 - Write tests via gmock
 - Benchmark via Google benchmark
+- Compare with same tests against multiple hashmaps
+  - Try different hash sizes
 
 DONE:
 - Implement groups
