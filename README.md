@@ -10,6 +10,7 @@ TO-DO:
 - Stop sentinel at the end (make sure it can not be accessed! (extra element?))
 - Create the control variables in the same allocation block
 - Write tests via gmock
+- Adjust for false sharing
 - Benchmark via Google benchmark
 - Compare with same tests against multiple hashmaps
   - Try different hash sizes
