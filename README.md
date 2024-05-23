@@ -13,6 +13,7 @@ TO-DO:
 - Benchmark via Google benchmark
 - Compare with same tests against multiple hashmaps
   - Try different hash sizes
+  - Try different data types
 
 DONE:
 - Implement groups
